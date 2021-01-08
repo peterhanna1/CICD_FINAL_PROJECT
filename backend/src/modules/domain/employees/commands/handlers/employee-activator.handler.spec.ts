@@ -4,7 +4,7 @@ import { EmployeeActivator } from './employee-activator.handler';
 
 describe('Employee Remover', () => {
   describe('when a user activates an employee', () => {
-    const MockEmployeeRepository = jest.fn()<EmployeeRepository, []>(
+    const MockEmployeeRepository = jest.fn<EmployeeRepository, []>(
       () =>
         ({
           findById: jest.fn().mockResolvedValue([]),
