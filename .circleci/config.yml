@@ -115,8 +115,8 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            # Your code here
-            exit 1
+             --query 'Reservations[*].Instances[*].PublicIpAddress' \
+             --output text >> inventory
       - persist_to_workspace:
           root: ~/
           paths:
