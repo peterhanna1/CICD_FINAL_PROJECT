@@ -74,7 +74,6 @@ jobs:
              cd backend
              npm i
              npm audit fix --audit-level=critical --force
-
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -88,7 +87,6 @@ jobs:
              cd backend
              npm i
              npm audit fix --audit-level=critical --force  
-
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
@@ -102,21 +100,21 @@ jobs:
               --tags project=udapeople \
                --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID}" \
                --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
-
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople \
-               --stack-name "udapeople-front-${CIRCLE_WORKFLOW_ID}" \
+               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID}" \
                --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
-
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-             --output text >> inventory
+            echo -e "[web]\n" > ./.circleci/ansible/inventory.txt
+            aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --output text >> inventory
       - persist_to_workspace:
           root: ~/
           paths:
