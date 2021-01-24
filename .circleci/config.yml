@@ -8,6 +8,11 @@ commands:
         type: string 
     steps:
       - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm ansible zip
+            pip install awscli
+      - run:
           name: Destroy environments
           when: on_fail
           command: |
@@ -22,6 +27,11 @@ commands:
       workflow_id:
         type: string     
     steps:
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm ansible zip
+            pip install awscli
       - run:
           name: Revert migrations
           when: on_fail
@@ -188,6 +198,7 @@ jobs:
       - run:
           name: Configure server
           command: |
+            cd .circleci/ansible/
             ansible-playbook -i .circleci/ansible/inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}  
