@@ -10,7 +10,6 @@ commands:
       - run:
           name: Install dependencies
           command: |
-            apk add --update curl nodejs npm ansible zip
             pip install awscli
       - run:
           name: Destroy environments
