@@ -252,6 +252,7 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
+            npm install webpack-dev-server -g
             cd frontend
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
