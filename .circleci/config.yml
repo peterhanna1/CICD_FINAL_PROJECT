@@ -230,7 +230,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
@@ -252,8 +252,7 @@ jobs:
             echo API_URL="http://${BACKEND_IP}:3030" >> "frontend/.env"
       - run:
           name: Deploy frontend objects
-          command: |
-            
+          command: |  
             cd frontend
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
