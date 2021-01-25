@@ -236,7 +236,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update curl nodejs npm ansible zip
             pip install awscli
       - run:
           name: Get backend url
@@ -281,6 +280,7 @@ jobs:
       - run:
           name: Deploy backend
           command: |
+            cd .circleci/ansible/
             ansible-playbook -i inventory.txt deploy-backend.yml
 
       - destroy-environment:
