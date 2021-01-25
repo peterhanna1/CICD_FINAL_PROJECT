@@ -236,6 +236,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apt-get install python3-pip
             pip install awscli
       - run:
           name: Get backend url
