@@ -236,9 +236,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            npm install webpack-dev-server -g
-            sudo apt install python-pip python-dev
-            sudo pip install awscli
+            yum -y install tar gzip 
+            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
+            yum -y install nodejs
       - run:
           name: Get backend url
           command: |
@@ -253,9 +253,11 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |  
+            npm install webpack-dev-server -g
             cd frontend
+            npm install
             npm run build
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
+            aws s3 cp ./dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
 
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}    
