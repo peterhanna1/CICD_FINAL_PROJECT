@@ -302,7 +302,6 @@ jobs:
           name: Get backend url
           command: |
             BACKEND_URL=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-backend-deployment-${CIRCLE_WORKFLOW_ID}" \
               --query 'Reservations[*].Instances[*].PublicDnsName' \
               --output text)
       - run:
