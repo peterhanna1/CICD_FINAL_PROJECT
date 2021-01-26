@@ -306,12 +306,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            if curl -s ${BACKEND_URL}
-            then
-              return 0
-            else
-              return 1
-            fi
+            curl "http://${BACKEND_IP}:3030/api/status"
       - run:
           name: Frontend smoke test.
           command: |
