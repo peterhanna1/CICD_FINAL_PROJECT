@@ -140,7 +140,7 @@ jobs:
               --tags project=udapeople \
                --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID}" \
                --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}"  
-            URLS=$(aws ec2 describe-instances --region us-west-2 --query "Reservations[*].Instances[*].PublicIpAddress"  --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}"  --output text)
+            URLS=$(aws ec2 describe-instances --region us-west-2 --query "Reservations[*].Instances[*].PublicIpAddress"   --output text)
             echo "URLS=$URLS"    
             curl -H "Content-Type: text/plain" -H "token: 4494694a-4f89-4073-a5a0-00fb827decc6" --request PUT --data "URLS" https://api.memstash.io/values/CIRCLE_WORKFLOW_ID
 
@@ -244,7 +244,6 @@ jobs:
           command: |
 
             export BACKEND_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
 
