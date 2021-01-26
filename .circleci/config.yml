@@ -305,7 +305,11 @@ jobs:
               --output text)
       - run:
           name: Backend smoke test.
+          no_output_timeout: 30m
           command: |
+            
+            BACKEND_IP=`sed -n 2p ~/project/.circleci/ansible/inventory.txt`
+            echo "${BACKEND_IP}"
             curl "http://${BACKEND_IP}:3030/api/status"
       - run:
           name: Frontend smoke test.
