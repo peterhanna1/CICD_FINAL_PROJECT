@@ -298,14 +298,15 @@ jobs:
             apk add --update curl
             pip install awscli
       - run:
+
           name: Get backend url and smoke test
           no_output_timeout: 30m
           command: |
               BACKEND_URL=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicDnsName' \
               --output text)
-              echo "${BACKEND_IP}"
-              curl "http://${BACKEND_IP}:3030/api/status"
+              echo "${BACKEND_URL}"
+              curl "http://${BACKEND_URL}:3030/api/status"
               
       - run:
           name: Frontend smoke test.
