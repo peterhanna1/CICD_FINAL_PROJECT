@@ -346,17 +346,22 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Get old stack workflow id
+          name: old stack workflow id / remove old stack and files
           command: |
-            export OldWorkflowID=$(aws cloudformation \ list-exports --query "Exports[?Name==\`CIRCLE_WORKFLOW_ID\`].Value" \ --no-paginate --output text)
-            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \ --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-      - run:
-          name: Remove old stacks and files
-          command: |
+            export OldWorkflowID=$(aws cloudformation \
+             list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+             --no-paginate --output text)      
+            
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+            --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+
+            echo Old Workflow Id: "${OldWorkflowID}"
+            echo Current Workflow Id: "${CIRCLE_WORKFLOW_ID}"
+
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-            then
+            then 
+              aws s3 rb s3://udapeople-${OldWorkflowID} --force
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
             fi
 workflows:
