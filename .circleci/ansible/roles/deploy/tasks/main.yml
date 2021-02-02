@@ -16,6 +16,14 @@
     name: ["nodejs", "npm"]
     update_cache: yes
     
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+    production: yes
+    state: present    
+    
 - name: Stop PM2
   ignore_errors: yes
   shell: |
@@ -34,10 +42,4 @@
     cd /home/ubuntu/backend
     pm2 start npm --name backend -- start
     
-- name: "install pm2"
-  become: true
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present    
+
