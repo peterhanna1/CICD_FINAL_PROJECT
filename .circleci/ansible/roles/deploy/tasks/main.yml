@@ -16,11 +16,7 @@
     name: ["nodejs", "npm"]
     update_cache: yes
     
-- name: Stop PM2
-  ignore_errors: yes
-  shell: |
-    pm2 stop backend
-    pm2 delete backend
+
     
 - name: Build node service
   shell: |
