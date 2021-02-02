@@ -265,6 +265,9 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
+            apk add --update tar gzip ansible nodejs npm curl
+            apk add --no-cache openssh-client
+            apk add --no-cache --upgrade bash
       - run:
           name: Deploy backend
           command: |
@@ -281,6 +284,7 @@ jobs:
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible/
             ansible-playbook -i .circleci/ansible/inventory.txt deploy-backend.yml
+            
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}   
       - revert-migrations:
