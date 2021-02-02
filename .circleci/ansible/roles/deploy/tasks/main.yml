@@ -1,6 +1,6 @@
 ---
 
-- name: Copy files from circleci to backend server
+- name: Copy files to server
   copy:
     src: /root/project/backend
     dest: /home/ubuntu/
