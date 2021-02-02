@@ -306,6 +306,7 @@ jobs:
           no_output_timeout: 30m
           command: |
               BACKEND_URL=$(aws ec2 describe-instances \
+              --filters Name=instance-state-name,Values=running \
               --query 'Reservations[*].Instances[*].PublicDnsName' \
               --output text)
               echo "${BACKEND_URL}"
