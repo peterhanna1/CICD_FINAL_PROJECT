@@ -1,45 +1,41 @@
 ---
 
-- name: Copy files from circleci to backend server
-  copy:
-    src: /root/project/backend
-    dest: /home/ubuntu/
-    
 - name: "upgrade packages."
   become: true
   apt:
-    upgrade: "yes"   
-    
+    upgrade: "yes"
 - name: "install dependencies."
   become: true
   apt:
     name: ["nodejs", "npm"]
     update_cache: yes
-    
 - name: "install pm2"
   become: true
   npm:
     name: pm2
     global: yes
     production: yes
-    state: present    
-    
-- name: Stop PM2
-  ignore_errors: yes
-  shell: |
-    pm2 stop backend
-    pm2 delete backend
-    
-- name: Build node service
-  shell: |
-    cd /home/ubuntu/backend
-    npm i
-    npm audit fix --audit-level=critical --force
-    npm run build
-      
-- name: Start pm2 service
-  shell: |
-    cd /home/ubuntu/backend
-    pm2 start npm --name backend -- start
+    state: present
+- name: "copy backend file"
+  become: true
+  copy:
+    src: /root/project/backend
+    dest: /root
+    force: no
+- name: "install npm packages"
+  become: true
+  command: npm install
+  args:
+    chdir: /root/backend
+- name: "compile npm packages"
+  become: true
+  command: npm run build
+  args:
+    chdir: /root/backend
+- name: "start server"
+  become: true
+  command: pm2 start npm -- run start
+  args:
+    chdir: /root/backend/dist
     
 
