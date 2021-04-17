@@ -336,10 +336,9 @@ jobs:
           name: Update cloudfront distribution
           command: |
             aws cloudformation create-stack \
-              --template-file .circleci/files/cloudfront.yml \
+              --use-previous-template \
               --stack-name udapeople-cloudfront \
-              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}" \
-              --tags project=udapeople-cloudfront
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID}",UsePreviousValue=false
   
      # - destroy-environment:
       #    workflow_id: ${CIRCLE_WORKFLOW_ID}   
