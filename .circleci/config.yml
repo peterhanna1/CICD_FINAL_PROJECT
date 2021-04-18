@@ -2,7 +2,7 @@ version: 2.1
 
 commands:
   destroy-environment:
-    description: Destroy back-end and front-end cloudformation stacks given a workflow ID. 
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       workflow_id:
         type: string 
@@ -301,7 +301,6 @@ jobs:
             apk add --update curl
             pip install awscli
       #- run:
-
        #   name: Get backend url and smoke test
         #  no_output_timeout: 30m
          # command: |
@@ -337,8 +336,8 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
-              --stack-name udapeople-cloudfront \
-              --parameters ParameterKey=WorkflowID,ParameterValue=$CIRCLE_WORKFLOW_ID,UsePreviousValue=false
+              --stack-name udapeople-cloudfront-1 \
+              ---parameters ParameterKey=WorkflowID,ParameterValue=$CIRCLE_WORKFLOW_ID,UsePreviousValue=false
   
      # - destroy-environment:
       #    workflow_id: ${CIRCLE_WORKFLOW_ID}   
