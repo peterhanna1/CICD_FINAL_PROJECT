@@ -1,0 +1,5 @@
+[URL01] - https://github.com/Peter-Soliman1/CICD_FINAL_PROJECT
+[URL02] - http://udapeople-0ebb27d8-b794-4018-b91c-c019510522bc.s3-website-us-west-2.amazonaws.com/
+[URL03] - d1a92sq4ed4prn.cloudfront.net
+[URL04] - ec2-34-219-77-45.us-west-2.compute.amazonaws.com
+[URL05] - ec2-54-71-27-20.us-west-2.compute.amazonaws.com
