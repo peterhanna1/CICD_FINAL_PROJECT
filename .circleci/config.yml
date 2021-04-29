@@ -151,7 +151,7 @@ jobs:
                curl -H "Content-Type: text/plain" -H "token: 4494694a-4f89-4073-a5a0-00fb827decc6" --request PUT --data "$ARN" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
       - run:
           name: Add back-end ip to ansible inventory
-          working_directory: ./.circleci/ansible
+          working_directory: project/.circleci/ansible/inventory.txt
           command: |
                 aws ec2 describe-instances \
                   --query 'Reservations[*].Instances[*].PublicIpAddress' \
