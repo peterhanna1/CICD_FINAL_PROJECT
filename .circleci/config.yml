@@ -154,6 +154,7 @@ jobs:
           command: |               
             export backend_IP=$(aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \            
+              --filters "Name=tag:Name,Values=backend-${ID}" \
               --output text >> .circleci/ansible/inventory.txt)
             cat ./.circleci/ansible/inventory.txt
       - persist_to_workspace:
