@@ -149,19 +149,18 @@ jobs:
                ARN=$(aws s3 ls | grep udapeople)
                echo "ARN=$ARN"
                curl -H "Content-Type: text/plain" -H "token: 4494694a-4f89-4073-a5a0-00fb827decc6" --request PUT --data "$ARN" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
-      - run:
-          name: Add back-end ip to ansible inventory
-          working_directory: project/.circleci/ansible/inventory.txt
-          command: |
-                aws ec2 describe-instances \
-                  --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                  --output text >> inventory
-                  cat .circleci/ansible/inventory.txt
+      -- run:
+          name: Add back-end ec2 ip to ansible inventory file 
+          command: |               
+            export backend_IP=$(aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \            
+              --output text >> .circleci/ansible/inventory.txt)
+            cat ./.circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-
+            
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}
 
