@@ -1,41 +1,29 @@
 ---
-
-- name: "upgrade packages."
-  become: true
-  apt:
-    upgrade: "yes"
-- name: "install dependencies."
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    update_cache: yes
-- name: "install pm2"
-  become: true
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
-- name: "copy backend file"
+- name: "Creates directory"
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+    
+- name: "Move backend files to remote server."
   become: true
   copy:
     src: /root/project/backend
-    dest: /root
-    force: no
-- name: "install npm packages"
-  become: true
-  command: npm install
-  args:
-    chdir: /root/backend
-- name: "compile npm packages"
-  become: true
-  command: npm run build
-  args:
-    chdir: /root/backend
-- name: "start server"
-  become: true
-  command: pm2 start npm -- run start
-  args:
-    chdir: /root/backend/dist
-    
+    dest: /home/ubuntu
 
+- name: "Install dependencies"
+  shell: |
+    cd /home/ubuntu/backend   
+    ls -la 
+    npm install
+    
+- name: "build package"
+  become: true
+  shell: |
+    cd /home/ubuntu/backend
+    npm run build
+- name: "run server"
+  become: true
+  shell: |
+    cd /home/ubuntu/backend
+    pm2 start npm -- run "start:dev"
+    pm2 ls
