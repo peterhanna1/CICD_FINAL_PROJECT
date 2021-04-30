@@ -187,7 +187,7 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible/
-            ansible-playbook -i .circleci/ansible/inventory.txt configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}  
       - revert-migrations:
@@ -285,7 +285,7 @@ jobs:
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible/
-            ansible-playbook -i .circleci/ansible/inventory.txt deploy-backend.yml
+            ansible-playbook -i inventory.txt deploy-backend.yml
             
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}   
