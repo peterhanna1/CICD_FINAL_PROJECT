@@ -3,7 +3,7 @@
 - name: "configuration play." 
   hosts: web
   user: ubuntu
-  gather_facts: true
+
   vars:
   
     - ansible_python_interpreter: /usr/bin/python3
@@ -20,6 +20,9 @@
     - TYPEORM_DATABASE: "{{ lookup('env','TYPEORM_DATABASE') }}"
     - TYPEORM_MIGRATIONS: .src/migrations/*.ts
     - TYPEORM_MIGRATIONS_DIR: ./src/migrations
+    
+  
+  gather_facts: false  
     
   roles:
     - deploy
