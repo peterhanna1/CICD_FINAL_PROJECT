@@ -138,6 +138,7 @@ jobs:
             URLS=$(aws ec2 describe-instances --region us-west-2 --query "Reservations[*].Instances[*].PublicIpAddress"   --output text)
             echo "URLS=$URLS"    
             echo URLS >> .circleci/ansible/inventory.txt
+            cat ./.circleci/ansible/inventory.txt
             curl -H "Content-Type: text/plain" -H "token: 4494694a-4f89-4073-a5a0-00fb827decc6" --request PUT --data "URLS" https://api.memstash.io/values/CIRCLE_WORKFLOW_ID
       - run:
           name: Ensure front-end infrastructure exist
