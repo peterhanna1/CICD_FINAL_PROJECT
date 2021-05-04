@@ -140,6 +140,10 @@ jobs:
             echo $URLS >> .circleci/ansible/inventory.txt
             cat ./.circleci/ansible/inventory.txt
             curl -H "Content-Type: text/plain" -H "token: 4494694a-4f89-4073-a5a0-00fb827decc6" --request PUT --data "URLS" https://api.memstash.io/values/CIRCLE_WORKFLOW_ID
+      - persist_to_workspace:
+            root: .circleci/ansible
+            paths:
+              - inventory.txt      
       - run:
           name: Ensure front-end infrastructure exist
           command: |
@@ -151,18 +155,7 @@ jobs:
                ARN=$(aws s3 ls | grep udapeople)
                echo "ARN=$ARN"
                curl -H "Content-Type: text/plain" -H "token: 4494694a-4f89-4073-a5a0-00fb827decc6" --request PUT --data "$ARN" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
-      - run:
-          name: Add back-end ec2 ip to ansible inventory file 
-          command: |               
-            export backend_IP=$(aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \            
-              --output text >> .circleci/ansible/inventory.txt)
-            cat ./.circleci/ansible/inventory.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
-            
+      
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID}
 
@@ -178,11 +171,11 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
       - attach_workspace:
-          at: .circleci/ansible/
+          at: .circleci/ansible
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible 
+            apk add --update ansible    
       - run:
           name: Configure server
           command: |
