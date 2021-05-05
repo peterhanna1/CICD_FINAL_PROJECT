@@ -169,7 +169,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: [69:fe:8c:6a:bb:be:56:11:a7:e8:4d:27:b9:59:6d:90] #["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
+          fingerprints: [06:66:6e:eb:c7:8d:42:cb:9e:19:cf:45:87:a4:e2:e1] #["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
       - attach_workspace:
           at: .circleci/ansible
       - run:
@@ -254,7 +254,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: [69:fe:8c:6a:bb:be:56:11:a7:e8:4d:27:b9:59:6d:90] #["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
+          fingerprints: [06:66:6e:eb:c7:8d:42:cb:9e:19:cf:45:87:a4:e2:e1] #["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
       - attach_workspace:
           at: .circleci/ansible/
       - run:
