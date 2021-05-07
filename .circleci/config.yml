@@ -256,7 +256,7 @@ jobs:
       - add_ssh_keys:
           fingerprints: ['18:a9:c3:95:79:a4:24:97:05:9c:a6:ce:aa:a2:17:37'] #["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
       - attach_workspace:
-          at: .circleci/ansible/
+          at: .circleci/ansible
       - run:
           name: Install dependencies
           command: |
@@ -278,6 +278,7 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
             tar -C backend -czvf artifact.tar.gz .
+            cat ./.circleci/ansible/inventory.txt
             cd .circleci/ansible/
             ansible-playbook -i inventory.txt deploy-backend.yml
             
