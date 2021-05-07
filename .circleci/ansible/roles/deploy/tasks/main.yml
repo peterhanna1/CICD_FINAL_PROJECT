@@ -2,9 +2,7 @@
 - name: "Creates directory"
   file:
     path: /home/ubuntu/backend
-    state: directory
-    
-- ansible_ssh_common_args: "-o StrictHostKeyChecking=no"    
+    state: directory  
     
 - name: "Move backend files to remote server."
   become: true
