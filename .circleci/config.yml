@@ -298,16 +298,16 @@ jobs:
           command: |
             apk add --update curl
             pip install awscli
-      #- run:
-       #   name: Get backend url and smoke test
-        #  no_output_timeout: 30m
-         # command: |
-          #    BACKEND_URL=$(aws ec2 describe-instances \
-           #   --filters Name=instance-state-name,Values=running \
-            #  --query 'Reservations[*].Instances[*].PublicDnsName' \
-             # --output text)
-              # echo "${BACKEND_URL}"
-              # curl "http://${BACKEND_URL}:3030/api/status"
+      - run:
+          name: Get backend url and smoke test
+          no_output_timeout: 30m
+          command: |
+              BACKEND_URL=$(aws ec2 describe-instances \
+              --filters Name=instance-state-name,Values=running \
+              --query 'Reservations[*].Instances[*].PublicDnsName' \
+              --output text)
+               echo "${BACKEND_URL}"
+               curl "http://${BACKEND_URL}:3030/api/status"
               
       - run:
           name: Frontend smoke test.
@@ -387,9 +387,9 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]    
-      #- smoke-test:
-         # requires: [deploy-backend, deploy-frontend]    
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]    
       #- cloudfront-update:
-         # requires: [smoke-test]   
+       #   requires: [smoke-test]   
       #- cleanup:
          # requires: [cloudfront-update] 
