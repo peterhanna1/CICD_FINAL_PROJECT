@@ -280,6 +280,7 @@ jobs:
             tar -C backend -czvf artifact.tar.gz .
             cat ./.circleci/ansible/inventory.txt
             cd .circleci/ansible/
+            export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i inventory.txt deploy-backend.yml
             
       - destroy-environment:
