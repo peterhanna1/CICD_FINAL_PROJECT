@@ -1,8 +1,9 @@
 ---
-- name: "install dependencies."
+
+- name: "install Ansible dependencies"
   become: true
   apt:
-    name: ["nodejs", "npm"]
+    name: ["nodejs", "npm", "python3", "tar", "gzip", "git"]
     state: latest
     update_cache: yes
 
@@ -14,29 +15,24 @@
     production: yes
     state: present
 
-- name: Creates directory
+- name: "create the application directory"
+  become_user: ubuntu
+  become: yes
   file:
-    path: /home/ubuntu/backend
+    path: ~/app
     state: directory
 
-- name: Copy backend dist files web server
-  copy:
-    src: /root/project/artifact.tar.gz
-    dest: /home/ubuntu/backend/artifact.tar.gz
+- name: "untar the backend app file"
+  become_user: ubuntu
+  become: yes
+  unarchive:
+    src: ~/project/backend.tar
+    dest: ~/app
 
-- name: Uncompress Backend
+- name: "start PM2"
+  become_user: ubuntu
+  become: yes
   shell: |
-    cd /home/ubuntu/backend
-    tar xvzf artifact.tar.gz -C .
-    ls -la
-    
-- name: Build
-  become: true
-  shell: |
-    cd /home/ubuntu/backend
-    npm install
-    npm run build
-- name: Start PM2
-  shell: |
-    cd /home/ubuntu/backend 
+    cd ~/app/backend
+    npm i
     pm2 start npm --name backend -- start
