@@ -29,10 +29,10 @@
     production: yes
     state: present
 
-- name: Creates directory
-  file:
-    path: ~/web
-    state: directory
+#- name: Creates directory
+#  file:
+#    path: ~/web
+#    state: directory
 
 # - name: Copy index test page
 #   template:
