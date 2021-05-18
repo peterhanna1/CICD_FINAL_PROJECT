@@ -276,7 +276,7 @@ jobs:
           name: Check folders
           command: |
             echo $(pwd)
-          £  ls /root/project/backend
+          #  ls /root/project/backend
       - run:
           name: Configure backend server
           command: |
