@@ -254,30 +254,32 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ['18:a9:c3:95:79:a4:24:97:05:9c:a6:ce:aa:a2:17:37'] #["2c:96:88:f7:91:5d:4f:3d:8e:41:d8:bd:46:c0:ee:7e"]
+          fingerprints:
+            - "9e:49:06:a9:1f:7b:8e:4a:c3:8d:f8:73:99:60:c1:65:7e:79:1f:cb"
       - attach_workspace:
           at: .circleci/ansible
       - run:
-          name: Install dependencies
+          name: Install AWS CLI
+          command: pip3 install awscli
+      - run:
+          name: Install ansible
           command: |
             apk add --update ansible
-            apk add --update tar gzip ansible nodejs npm curl
-            apk add --no-cache openssh-client
-            apk add --no-cache --upgrade bash
+            ansible-galaxy install weareinteractive.environment
       - run:
-          name: Deploy backend
-          command: |  
-            tar -C backend -czvf artifact.tar.gz .
-            echo ENVIROMENT=development > "backend/.env"
-            echo TYPEORM_CONNECTION=postgres >> "backend/.env"
-            echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/.env"
-            echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
-            echo TYPEORM_MIGRATIONS=./src/migrations/*.ts >> "backend/.env"
-            echo TYPEORM_HOST=$TYPEORM_HOST >> "backend/.env"
-            echo TYPEORM_PORT=$TYPEORM_PORT >> "backend/.env"
-            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> "backend/.env"
-            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> "backend/.env"
-            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> "backend/.env"
+          name: Install curl
+          command: apk add curl
+      - run:
+          name: Install Open SSH
+          command: apk add openssh-client
+      - run:
+          name: Check folders
+          command: |
+            echo $(pwd)
+          £  ls /root/project/backend
+      - run:
+          name: Configure backend server
+          command: |
             cat backend/.env
             cd .circleci/ansible/
             export ANSIBLE_HOST_KEY_CHECKING=False
