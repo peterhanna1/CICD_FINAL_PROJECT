@@ -7,9 +7,15 @@
 - name: "Copy backend build to server"
   become: true
   unarchive:
-    src: /root/project/artifact.tar.gz
-    dest: /home/ubuntu/artifact.tar.gz
+    src: /root/project/backend.tar.gz
+    dest: /home/ubuntu/app/backend.tar.gz
     owner: ubuntu
+    
+ - name: Uncompress Backend
+  shell: |
+    cd /home/ubuntu/app
+    tar xvzf backend.tar.gz -C .
+    ls -la   
 
 - name: "Copy package.json to server"
   become: true
