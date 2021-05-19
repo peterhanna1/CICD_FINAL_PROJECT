@@ -7,14 +7,14 @@
 - name: "Copy backend build to server"
   become: true
   unarchive:
-    src: .circleci/ansible/backend.tar.gz
-    dest: /home/ubuntu/app/
+    src: /root/project/artifact.tar.gz
+    dest: /home/ubuntu/artifact.tar.gz
     owner: ubuntu
 
 - name: "Copy package.json to server"
   become: true
   copy:
-    src: .circleci/ansible/package.json
+    src: /root/project/backend/package.json
     dest: /home/ubuntu/app/
     owner: ubuntu
 
