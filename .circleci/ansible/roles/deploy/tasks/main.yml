@@ -4,18 +4,16 @@
     path: /home/ubuntu/app
     state: directory
 
-- name: "Copy backend build to server"
-  become: true
-  unarchive:
-    src: /root/project/backend.tar.gz
-    dest: /home/ubuntu/app/backend.tar.gz
-    owner: ubuntu
-    
+- name: Copy backend dist files web server
+  copy:
+    src: /root/project/artifact.tar.gz
+    dest: /home/ubuntu/artifact.tar.gz
+
 - name: Uncompress Backend
   shell: |
-    cd /home/ubuntu/app
-    tar xvzf backend.tar.gz -C .
-    ls -la   
+    cd /home/ubuntu
+    tar xvzf artifact.tar.gz -C .
+    ls -la
 
 - name: "Copy package.json to server"
   become: true
