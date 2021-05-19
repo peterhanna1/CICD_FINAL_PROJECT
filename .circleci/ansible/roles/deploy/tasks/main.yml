@@ -11,7 +11,7 @@
     dest: /home/ubuntu/app/backend.tar.gz
     owner: ubuntu
     
- - name: Uncompress Backend
+- name: Uncompress Backend
   shell: |
     cd /home/ubuntu/app
     tar xvzf backend.tar.gz -C .
