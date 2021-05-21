@@ -1,12 +1,12 @@
 - name: Copy backend dist files web server
   copy:
-    src: /root/project/artifact.tar.gz
-    dest: /home/ubuntu/artifact.tar.gz
+    src: /root/project/backend.tar.gz
+    dest: /home/ubuntu/backend.tar.gz
 
 - name: Uncompress Backend
   shell: |
     cd /home/ubuntu
-    tar xvzf artifact.tar.gz -C .
+    tar xvzf backend.tar.gz -C .
     ls -la
 
 - name: "Copy package.json to server"
