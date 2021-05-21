@@ -31,7 +31,7 @@
     export TYPEORM_PASSWORD="{{ lookup('env', 'TYPEORM_PASSWORD') }}"
     export TYPEORM_DATABASE="{{ lookup('env', 'TYPEORM_DATABASE') }}"
     cd src
-    pm2 start main.ts --name udapeople-backend
+    pm2 start npm --name backend -- start
   args:
     chdir: /home/ubuntu
 
