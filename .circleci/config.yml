@@ -280,6 +280,7 @@ jobs:
       - run:
           name: Configure backend server
           command: |
+            tar -C backend -czvf artifact.tar.gz .
             cat backend/.env
             cd .circleci/ansible/
             export ANSIBLE_HOST_KEY_CHECKING=False
