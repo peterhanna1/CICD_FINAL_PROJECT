@@ -39,3 +39,21 @@
   become: yes
   shell: |
     env PATH=$PATH:/usr/local/bin pm2 startup -u ubuntu
+    
+- name: "clear npm cache"  
+  command: npm cache clean --force
+  
+- name: "delete Node_Modules"  
+  command: rm -rf node_modules
+  args:
+    chdir: /home/ubuntu
+  
+- name: "Reinstall NPM"  
+  command: npm install  
+
+
+
+
+
+
+
