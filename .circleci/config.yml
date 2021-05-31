@@ -243,7 +243,6 @@ jobs:
             cd frontend
             npm install
             npm run build
-            ls -a
             aws s3 cp ./dist s3://udapeople-${CIRCLE_WORKFLOW_ID} --recursive
      # - destroy-environment:
       #    workflow_id: ${CIRCLE_WORKFLOW_ID}    
