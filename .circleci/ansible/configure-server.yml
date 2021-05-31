@@ -13,7 +13,7 @@
     - name: Loading environment variables
       tags: always
       set_fact:
-        ENVIRONMENT=production  
+  
         TYPEORM_CONNECTION: "{{ lookup('env','TYPEORM_CONNECTION') }}"
         TYPEORM_HOST: "{{ lookup('env','TYPEORM_HOST') }}"
         TYPEORM_PORT: 5432
