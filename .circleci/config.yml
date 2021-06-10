@@ -198,18 +198,17 @@ jobs:
             cd backend
             npm i
             npm run migrations
+            touch migration
+            npm run migrations >> migration
+            cat migration
       - run:
           name: Send migration results to memstash
           command: |
-            tee migrations_result.txt
-            if cat migrations_result.txt | grep "has been executed successfully" ; then
-              curl -H "Content-Type: text/plain" -H "token: b3c37955-bc53-449d-88f5-cbfeefbbc634" \
-                          --request PUT --data "1" \
-                          https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+            if grep "successfully" migration
+            then 
+            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "true" https://api.memstash.io/values/<< pipeline.id >>_migrations
             else
-              curl -H "Content-Type: text/plain" -H "token: b3c37955-bc53-449d-88f5-cbfeefbbc634" \
-                          --request PUT --data "0" \
-                          https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+            curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
             fi
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID} 
