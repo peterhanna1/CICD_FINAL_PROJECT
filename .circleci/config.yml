@@ -187,34 +187,34 @@ jobs:
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID}    
 
-    run-migrations:
-        docker:
-          - image: circleci/node
-        steps:
-          - checkout
-          - run:
-              name: Run migrations
-              command: |
-                cd backend
-                npm i
-                npm run migrations
-          - run:
-              name: Send migration results to memstash
-              command: |
-                tee migrations_result.txt
-                if cat migrations_result.txt | grep "has been executed successfully" ; then
-                  curl -H "Content-Type: text/plain" -H "token: b3c37955-bc53-449d-88f5-cbfeefbbc634" \
-                              --request PUT --data "1" \
-                              https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
-                else
-                  curl -H "Content-Type: text/plain" -H "token: b3c37955-bc53-449d-88f5-cbfeefbbc634" \
-                              --request PUT --data "0" \
-                              https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
-                fi
-          #  - destroy-environment:
-           #     workflow_id: ${CIRCLE_WORKFLOW_ID} 
-           # - revert-migrations:
-            #    workflow_id: ${CIRCLE_WORKFLOW_ID}
+  run-migrations:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - run:
+          name: Run migrations
+          command: |
+            cd backend
+            npm i
+            npm run migrations
+      - run:
+          name: Send migration results to memstash
+          command: |
+            tee migrations_result.txt
+            if cat migrations_result.txt | grep "has been executed successfully" ; then
+              curl -H "Content-Type: text/plain" -H "token: b3c37955-bc53-449d-88f5-cbfeefbbc634" \
+                          --request PUT --data "1" \
+                          https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+            else
+              curl -H "Content-Type: text/plain" -H "token: b3c37955-bc53-449d-88f5-cbfeefbbc634" \
+                          --request PUT --data "0" \
+                          https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID}
+            fi
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID} 
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID}
 
   deploy-frontend:
     docker:
@@ -323,10 +323,10 @@ jobs:
             else
               return 1
             fi
-     # - destroy-environment:
-      #    workflow_id: ${CIRCLE_WORKFLOW_ID}  
-      #- revert-migrations:
-       #   workflow_id: ${CIRCLE_WORKFLOW_ID}    
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID}  
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID}    
 
   cloudfront-update:
     docker:
