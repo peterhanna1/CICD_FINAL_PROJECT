@@ -199,7 +199,7 @@ jobs:
             npm install
             npm run migrations > migration_${CIRCLE_WORKFLOW_ID}.txt
             cat migration_${CIRCLE_WORKFLOW_ID}.txt
-     - run:
+      - run:
           name: Send migration results to memstash
           command: |
             cd backend
