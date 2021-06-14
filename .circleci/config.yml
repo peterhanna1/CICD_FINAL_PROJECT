@@ -200,7 +200,7 @@ jobs:
             cd backend
             npm install
             npm run migrations > migration_${CIRCLE_WORKFLOW_ID}.txt
-            cat migration_${CIRCLE_WORKFLOW_ID:0:7}.txt
+            cat migration_${CIRCLE_WORKFLOW_ID}.txt
       - run:
           name: Send migration results to memstash
           command: |
@@ -397,9 +397,9 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]    
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]    
-      - cloudfront-update:
-          requires: [smoke-test]   
+     # - smoke-test:
+      #    requires: [deploy-backend, deploy-frontend]    
+      #- cloudfront-update:
+       #   requires: [smoke-test]   
       #- cleanup:
          # requires: [cloudfront-update] 
