@@ -207,7 +207,7 @@ jobs:
             cd backend
             cat migration_${CIRCLE_WORKFLOW_ID}.txt
             result=0
-            if grep -q "has been executed successfully" migration_${CIRCLE_WORKFLOW_ID:0:7}.txt
+            if grep -q "has been executed successfully" migration_${CIRCLE_WORKFLOW_ID}.txt
             then
               result=1
             fi
